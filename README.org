@@ -56,6 +56,7 @@ rpcport=40191
 
 #+BEGIN_SRC conf :tangle data/bitcoin/regtest20/bitcoin.conf
 regtest=1
+listen=0
 
 [regtest]
 rpcport=40200
