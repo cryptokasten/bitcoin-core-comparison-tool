@@ -1,0 +1,3 @@
+#!/bin/bash
+
+/data/bitcoin/bitcoin-0.20.0/bin/bitcoind -datadir=/data/bitcoin/regtest20 $@

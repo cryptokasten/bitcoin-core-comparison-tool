@@ -1,0 +1,116 @@
+#+TITLE: Bitcoin core comparison tool
+#+PROPERTY: header-args:sh :session *shell bitcoin-core-comparison-tool sh* :results silent raw
+#+OPTIONS: ^:nil
+
+** System environment
+
+- CentOS Linux release 8.1.1911 (Core)
+
+- Bitcoin Core 0.19.1
+
+- Bitcoin Core 0.20.0
+
+** Download and install bitcoin core
+
+Untar bitcoin core to directories =/data/bitcoin/bitcoin-0.19.1/= and
+=/data/bitcoin/bitcoin-0.20.0/=
+
+#+BEGIN_SRC sh :results replace code :exports both
+/data/bitcoin/bitcoin-0.20.0/bin/bitcoind --version | head -n1
+#+END_SRC
+
+#+RESULTS:
+#+begin_src sh
+Bitcoin Core version v0.20.0
+#+end_src
+
+-----
+
+#+BEGIN_SRC sh :results replace code :exports both
+/data/bitcoin/bitcoin-0.19.1/bin/bitcoind --version | head -n1
+#+END_SRC
+
+#+RESULTS:
+#+begin_src sh
+Bitcoin Core version v0.19.1
+#+end_src
+
+** Create datadirs
+
+#+BEGIN_SRC sh
+mkdir /data/bitcoin/{regtest19,regtest20}
+#+END_SRC
+
+** Create config files
+
+=/data/bitcoin/regtest19/bitcoin.conf=.
+
+#+BEGIN_SRC conf :tangle data/bitcoin/regtest19/bitcoin.conf
+regtest=1
+rpcport=40191
+#+END_SRC
+
+=data/bitcoin/regtest20/bitcoin.conf=.
+
+#+BEGIN_SRC conf :tangle data/bitcoin/regtest20/bitcoin.conf
+regtest=1
+rpcport=40200
+#+END_SRC
+
+** Create fake binaries
+
+=/data/bitcoin/cli19/bitcoin-cli=
+
+#+BEGIN_SRC sh :tangle data/bitcoin/cli19/bitcoin-cli
+#!/bin/bash
+
+/data/bitcoin/bitcoin-0.19.1/bin/bitcoin-cli -datadir=/data/bitcoin/regtest19 $@
+#+END_SRC
+
+=/data/bitcoin/cli19/bitcoind=
+
+#+BEGIN_SRC sh :tangle data/bitcoin/cli19/bitcoind
+#!/bin/bash
+
+/data/bitcoin/bitcoin-0.19.1/bin/bitcoind -datadir=/data/bitcoin/regtest19 $@
+#+END_SRC
+
+=/data/bitcoin/cli20/bitcoin-cli=
+
+#+BEGIN_SRC sh :tangle data/bitcoin/cli20/bitcoin-cli
+#!/bin/bash
+
+/data/bitcoin/bitcoin-0.20.0/bin/bitcoin-cli -datadir=/data/bitcoin/regtest20 $@
+#+END_SRC
+
+=/data/bitcoin/cli20/bitcoind=
+
+#+BEGIN_SRC sh :tangle data/bitcoin/cli20/bitcoind
+#!/bin/bash
+
+/data/bitcoin/bitcoin-0.20.0/bin/bitcoind -datadir=/data/bitcoin/regtest20 $@
+#+END_SRC
+
+And make executables.
+
+#+BEGIN_SRC sh
+chmod +x /data/bitcoin/cli{19,20}/*
+#+END_SRC
+
+** Usage
+
+Open a console and type:
+
+#+BEGIN_SRC sh
+PATH=/data/bitcoin/cli20:$PATH
+#+END_SRC
+
+And use the =bitcoin-cli= and =bitcoind= version 20.
+
+Open another console and type:
+
+#+BEGIN_SRC sh
+PATH=/data/bitcoin/cli19:$PATH
+#+END_SRC
+
+And use the =bitcoin-cli= and =bitcoind= version 19.
