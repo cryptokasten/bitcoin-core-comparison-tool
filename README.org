@@ -50,7 +50,7 @@ regtest=1
 rpcport=40191
 #+END_SRC
 
-=data/bitcoin/regtest20/bitcoin.conf=.
+=/data/bitcoin/regtest20/bitcoin.conf=.
 
 #+BEGIN_SRC conf :tangle data/bitcoin/regtest20/bitcoin.conf
 regtest=1
