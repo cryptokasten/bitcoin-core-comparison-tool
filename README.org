@@ -47,6 +47,7 @@ mkdir /data/bitcoin/{regtest19,regtest20}
 
 #+BEGIN_SRC conf :tangle data/bitcoin/regtest19/bitcoin.conf
 regtest=1
+listen=0
 
 [regtest]
 rpcport=40191
